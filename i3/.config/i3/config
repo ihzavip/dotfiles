@@ -59,6 +59,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # clipmenud
 exec --no-startup-id clipmenud
 
+#
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -206,4 +207,15 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        mode hide
+        hidden_state hide
+        modifier $mod
 }
+
+# Example (Gruvbox colors, adjust to taste)
+client.focused          #282828 #282828 #ffffff #282828
+client.unfocused        #282828 #282828 #a89984 #282828
+
+
+hide_edge_borders smart
+new_window pixel 1
