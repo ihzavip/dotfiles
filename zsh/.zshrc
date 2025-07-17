@@ -2,15 +2,20 @@
 HISTFILE=~/.histfile
 HISTSIZE=3000
 SAVEHIST=3000
-# bindkey -e
+
+eval "$(dircolors -b)"
 
 # Aliases
-alias ll='ls -lah'
+alias ls='ls --color=auto'
+alias ll='ls -lh'
 alias la='ls -A'
 alias l='ls -CF'
 
 # Keybindings (vi mode)
 bindkey -v
+# bindkey -e
+bindkey '^E' autosuggest-accept
+
 
 autoload -Uz colors && colors  # enable colors
 
@@ -30,6 +35,13 @@ compinit
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
+# Check that the function `starship_zle-keymap-select()` is defined.
+# xref: https://github.com/starship/starship/issues/3418
+# type starship_zle-keymap-select >/dev/null || \
+#   {
+#     echo "Load starship"
+#     eval "$(starship init zsh)"
+#   }
 eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
@@ -39,3 +51,15 @@ export NVM_DIR="$HOME/.nvm"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# DMENU
+export CM_LAUNCHER="dmenu -fn 'Monospace-14' -l 15"
+
+# ================================
+# Zsh Plugins
+# ================================
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
+# Change suggestion color (optional, default is gray)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
