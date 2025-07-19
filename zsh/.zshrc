@@ -55,6 +55,19 @@ source <(ng completion script)
 # DMENU
 export CM_LAUNCHER="dmenu -fn 'Monospace-14' -l 15"
 
+# Schemaspy
+alias erd='schemaspy -t mariadb \
+  -dp /usr/share/java/mariadb-jdbc/mariadb-java-client.jar \
+  -host 127.0.0.1 \
+  -port 3306 \
+  -db project_management \
+  -s project_management \
+  -u root \
+  -p root \
+  -vizjs \
+  -o ~/schemaspy-output/project_management && \
+  xdg-open ~/schemaspy-output/project_management/index.html'
+
 # ================================
 # Zsh Plugins
 # ================================

@@ -223,3 +223,18 @@ client.unfocused        #282828 #282828 #a89984 #282828
 
 hide_edge_borders smart
 new_window pixel 1
+
+# lock-session
+bindsym $mod+Shift+s exec i3lock && systemctl suspend
+
+mode "exit: [l]ogout, [r]eboot, [h]ibernate, [s]leep, [p]oweroff" {
+    bindsym l exec "$HOME/Utility/i3-restore/i3-save && i3-msg 'exit'"
+    bindsym r exec "$HOME/Utility/i3-restore/i3-save && systemctl reboot"
+    bindsym h exec systemctl hibernate
+    bindsym s exec systemctl suspend
+    bindsym p exec "$HOME/Utility/i3-restore/i3-save && systemctl poweroff"
+    bindsym Return exec i3-msg exit
+    bindsym Escape mode "default"
+}
+
+exec --no-startup-id sleep 3 && $HOME/Utility/i3-restore/i3-restore
