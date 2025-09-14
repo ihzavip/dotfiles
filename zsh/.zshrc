@@ -10,6 +10,7 @@ alias ls='ls --color=auto'
 alias ll='ls -lh'
 alias la='ls -A'
 alias l='ls -CF'
+alias nf='clear && neofetch'
 
 # Keybindings (vi mode)
 bindkey -v
@@ -34,7 +35,6 @@ compinit
 # (Optional) Cache to speed up startup
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
-
 # Check that the function `starship_zle-keymap-select()` is defined.
 # xref: https://github.com/starship/starship/issues/3418
 # type starship_zle-keymap-select >/dev/null || \
@@ -68,6 +68,17 @@ alias erd='schemaspy -t mariadb \
   -o ~/schemaspy-output/project_management && \
   xdg-open ~/schemaspy-output/project_management/index.html'
 
+alias erdN='schemaspy -t mariadb \
+  -dp /usr/share/java/mariadb-jdbc/mariadb-java-client.jar \
+  -host 127.0.0.1 \
+  -port 3306 \
+  -db northwind \
+  -s northwind \
+  -u root \
+  -p root \
+  -vizjs \
+  -o ~/schemaspy-output/northwind && \
+  xdg-open ~/schemaspy-output/northwind/index.html'
 # ================================
 # Zsh Plugins
 # ================================
