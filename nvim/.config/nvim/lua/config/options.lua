@@ -7,4 +7,4 @@ local opt = vim.opt
 opt.wrap = true
 opt.swapfile = false
 
-vim.g.snacks_animate = false
+-- vim.g.snacks_animate = false
