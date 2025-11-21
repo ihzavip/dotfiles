@@ -28,9 +28,9 @@ exec --no-startup-id setxkbmap -option caps:swapescape
 
 # brightness
 # Brightness up
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +2%
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
 # Brightness down
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 2%-
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
 
 # key rate
 exec --no-startup-id xset r rate 300 60
