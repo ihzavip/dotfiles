@@ -6,8 +6,6 @@ SAVEHIST=3000
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-eval "$(dircolors -b)"
-
 # Aliases
 alias ls='ls --color=auto'
 alias ll='ls -lh'
@@ -22,16 +20,6 @@ bindkey -v
 # bindkey -e
 bindkey '^E' autosuggest-accept
 
-
-autoload -Uz colors && colors  # enable colors
-
-# Custom PS1 prompt
-PROMPT='%F{green}%n%f %F{blue}%~%f %F{yellow}%*%f
-$ '
-
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/lucy/.zshrc'
 
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
@@ -98,7 +86,6 @@ source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.
 # Change suggestion color (optional, default is gray)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-# TODO: Doesn't work, check later
-export LESS='-R --use-color -Dd+r -Du+b'
+export LESS='-R'
 export MANPAGER='less -R'
 export PAGER='less -R'
