@@ -37,11 +37,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
 # key rate
 exec --no-startup-id xset r rate 300 60
 
-# clipman
-exec --no-startup-id clipman
-
 # picom
-exec --no-startup-id picom --experimental-backends --vsync
+exec --no-startup-id picom --vsync
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
