@@ -3,6 +3,9 @@ HISTFILE=~/.histfile
 HISTSIZE=3000
 SAVEHIST=3000
 
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
 eval "$(dircolors -b)"
 
 # Aliases
@@ -11,6 +14,8 @@ alias ll='ls -lh'
 alias la='ls -A'
 alias l='ls -CF'
 alias nf='clear && neofetch'
+alias q='exit'
+alias icat="kitten icat" # image, picture
 
 # Keybindings (vi mode)
 bindkey -v
@@ -53,6 +58,9 @@ export NVM_DIR="$HOME/.nvm"
 source <(ng completion script)
 
 # DMENU
+export EDITOR=nvim
+export VISUAL=nvim
+
 export CM_LAUNCHER="dmenu -fn 'Monospace-14' -l 15"
 
 # Schemaspy
@@ -87,3 +95,8 @@ source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.
 
 # Change suggestion color (optional, default is gray)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
+# TODO: Doesn't work, check later
+export LESS='-R --use-color -Dd+r -Du+b'
+export MANPAGER='less -R'
+export PAGER='less -R'
