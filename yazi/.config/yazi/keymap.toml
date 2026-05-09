@@ -1,0 +1,7 @@
+[manager]
+prepend_keymap = [
+  { on = "q",        run = "quit",                                                              desc = "Quit" },
+  { on = "!",        run = "shell zsh --block",                                                desc = "Open shell here" },
+  { on = "zh",       run = "hidden toggle",                                                    desc = "Toggle hidden files" },
+  { on = ["y", "p"], run = "shell --confirm 'printf \"%s\" \"$1\" | xclip -selection clipboard'", desc = "Copy path to clipboard" },
+]

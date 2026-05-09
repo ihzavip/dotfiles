@@ -2,18 +2,37 @@
 HISTFILE=~/.histfile
 HISTSIZE=3000
 SAVEHIST=3000
+# IGNOREEOF=100
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Aliases
+alias keyboard='keyboard-setup'
 alias ls='ls --color=auto'
-alias ll='ls -lh'
+alias ll='ls -lh -A'
 alias la='ls -A'
 alias l='ls -CF'
 alias nf='clear && neofetch'
 alias q='exit'
 alias icat="kitten icat" # image, picture
+alias tl="tmux ls"
+ta() { tmux attach -t "$1" }
+td() { tmux detach-client -s "$1" }
+tk() { tmux kill-session -t "$1" }
+
+# yazi: cd into last directory on exit
+y() {
+    local tmp cwd
+    tmp="$(mktemp -t yazi-cwd.XXXXXX)"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+
+export CLAUDE_CODE_NO_FLICKER=1
 
 # Keybindings (vi mode)
 bindkey -v
@@ -51,7 +70,6 @@ npx() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.
 export EDITOR=nvim
 export VISUAL=nvim
 
-export CM_LAUNCHER="dmenu -fn 'Monospace-14' -l 15"
 
 # Schemaspy
 alias erd='schemaspy -t mariadb \

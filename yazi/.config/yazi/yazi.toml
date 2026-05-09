@@ -1,0 +1,40 @@
+[manager]
+ratio          = [1, 2, 5]
+sort_by        = "alphabetical"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+show_hidden    = false
+show_symlink   = true
+
+[preview]
+tab_size   = 2
+max_width  = 600
+max_height = 900
+
+[opener]
+edit = [
+  { run = 'nvim "$@"', block = true },
+]
+open = [
+  { run = 'xdg-open "$@"', orphan = true },
+]
+play = [
+  { run = 'mpv "$@"', orphan = true },
+]
+
+[open]
+rules = [
+  { mime = "text/*",  use = "edit" },
+  { name = "*.conf",  use = "edit" },
+  { name = "*.lua",   use = "edit" },
+  { name = "*.toml",  use = "edit" },
+  { name = "*.yml",   use = "edit" },
+  { name = "*.yaml",  use = "edit" },
+  { name = "*.sh",    use = "edit" },
+  { name = "*.c",     use = "edit" },
+  { name = "*.h",     use = "edit" },
+  { mime = "video/*", use = "play" },
+  { mime = "audio/*", use = "play" },
+  { name = "*",       use = "open" },
+]
