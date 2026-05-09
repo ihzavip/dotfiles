@@ -1,0 +1,40 @@
+# betterlockscreen config
+# Theme: black & yellow (Gruvbox yellow)
+
+# Wallpaper effect: dim + blur for elegance
+fx_list=(dim blur)
+dim_level=70
+blur_level=2
+
+# Login box: dark semi-transparent
+loginbox=00000088
+loginshadow=00000000
+
+# Font
+font="JetBrains Mono"
+time_format="%H:%M"
+date_format="%A, %B %d"
+
+# Colors (RRGGBBAA)
+time_color=fabd2fff
+date_color=fabd2fcc
+greeter_color=fabd2fcc
+
+inside_color=00000000
+insidever_color=fabd2f22
+insidewrong_color=cc241d44
+
+ring_color=fabd2fff
+ringver_color=fabd2faa
+ringwrong_color=cc241dff
+
+line_color=00000000
+
+key_hl_color=fabd2fff
+bshl_color=cc241dff
+separator_color=00000000
+
+text_color=fabd2fff
+wrongtext_color=cc241dff
+vertext_color=fabd2fff
+modif_color=fabd2fff

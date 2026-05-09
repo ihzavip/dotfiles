@@ -51,14 +51,6 @@ fi
 # (Optional) Cache to speed up startup
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
-# Check that the function `starship_zle-keymap-select()` is defined.
-# xref: https://github.com/starship/starship/issues/3418
-# type starship_zle-keymap-select >/dev/null || \
-#   {
-#     echo "Load starship"
-#     eval "$(starship init zsh)"
-#   }
-eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 nvm() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; nvm "$@"; }
@@ -98,6 +90,8 @@ alias erdN='schemaspy -t mariadb \
 # ================================
 # Zsh Plugins
 # ================================
+zle-keymap-select() {}
+zle -N zle-keymap-select
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
@@ -132,4 +126,8 @@ export FZF_DEFAULT_OPTS="
   --preview 'cat {}'
   --preview-window right:50%:hidden
   --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down'
 "
+
+# Starship must init last so it wraps zle-keymap-select after fzf and other plugins
+eval "$(starship init zsh)"

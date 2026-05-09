@@ -1,0 +1,83 @@
+configuration {
+    font: "JetBrains Mono 10";
+    show-icons: true;
+    kb-row-up: "Up,super-k,Shift+Tab,Shift+ISO_Left_Tab";
+    kb-row-down: "Down,super-j";
+    kb-accept-entry: "Control+m,Return,KP_Enter";
+}
+
+* {
+    bg:        #282828;
+    bg-alt:    #3c3836;
+    fg:        #ebdbb2;
+    fg-dim:    #928374;
+    yellow:    #fabd2f;
+    red:       #fb4934;
+    selected:  #fabd2f;
+
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    background-color: @bg;
+    border:           2px;
+    border-color:     @yellow;
+    border-radius:    4px;
+    width:            500px;
+    padding:          8px;
+}
+
+mainbox {
+    background-color: @bg;
+    children: [ inputbar, listview ];
+    spacing: 8px;
+    padding: 8px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    4px;
+    padding:          6px 10px;
+    children:         [ prompt, entry ];
+    spacing:          6px;
+}
+
+prompt {
+    text-color: @yellow;
+    font:       "JetBrains Mono Bold 10";
+}
+
+entry {
+    text-color:  @fg;
+    placeholder: "search...";
+    placeholder-color: @fg-dim;
+}
+
+listview {
+    background-color: transparent;
+    lines:            8;
+    spacing:          2px;
+    scrollbar:        false;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    4px;
+    padding:          6px 10px;
+    spacing:          8px;
+    children:         [ element-icon, element-text ];
+}
+
+element selected {
+    background-color: @bg-alt;
+    text-color:       @yellow;
+}
+
+element-icon {
+    size: 18px;
+}
+
+element-text {
+    text-color: inherit;
+}
