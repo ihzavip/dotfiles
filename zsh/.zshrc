@@ -107,3 +107,29 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 export LESS='-R'
 export MANPAGER='less -R'
 export PAGER='less -R'
+
+# ================================
+# fzf
+# ================================
+# Shell integration (Ctrl+R, Ctrl+T, Alt+C)
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+# Use fd as the default find backend (faster, respects .gitignore)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+# Appearance: gruvbox dark + preview window (toggle with Ctrl+/)
+export FZF_DEFAULT_OPTS="
+  --height 40%
+  --border rounded
+  --layout reverse
+  --prompt '❯ '
+  --color=bg+:#3c3836,bg:#282828,spinner:#fb4934,hl:#928374
+  --color=fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934
+  --color=marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934
+  --preview 'cat {}'
+  --preview-window right:50%:hidden
+  --bind 'ctrl-/:toggle-preview'
+"
