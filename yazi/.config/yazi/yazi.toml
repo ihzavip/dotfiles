@@ -13,6 +13,9 @@ max_width  = 600
 max_height = 900
 
 [opener]
+extract = [
+  { run = 'unar "$1"', desc = "Extract here" },
+]
 edit = [
   { run = 'nvim "$@"', block = true },
 ]
@@ -21,6 +24,9 @@ open = [
 ]
 play = [
   { run = 'mpv "$@"', orphan = true },
+]
+view = [
+  { run = 'nsxiv -a "$(dirname "$1")"', orphan = true, desc = "View image" },
 ]
 
 [open]
@@ -34,6 +40,13 @@ rules = [
   { name = "*.sh",    use = "edit" },
   { name = "*.c",     use = "edit" },
   { name = "*.h",     use = "edit" },
+  { mime = "application/zip",             use = "extract" },
+  { mime = "application/x-tar",           use = "extract" },
+  { mime = "application/x-bzip2",         use = "extract" },
+  { mime = "application/x-7z-compressed", use = "extract" },
+  { mime = "application/x-rar",           use = "extract" },
+  { mime = "application/gzip",            use = "extract" },
+  { mime = "image/*", use = "view" },
   { mime = "video/*", use = "play" },
   { mime = "audio/*", use = "play" },
   { name = "*",       use = "open" },

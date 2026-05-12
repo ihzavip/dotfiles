@@ -129,5 +129,7 @@ export FZF_DEFAULT_OPTS="
   --bind 'ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down'
 "
 
+eval "$(zoxide init zsh)"
+
 # Starship must init last so it wraps zle-keymap-select after fzf and other plugins
 eval "$(starship init zsh)"

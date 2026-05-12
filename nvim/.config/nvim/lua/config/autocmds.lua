@@ -12,10 +12,18 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
     local groups = {
-      "Normal", "NormalNC", "NormalFloat", "FloatBorder",
-      "SnacksPickerList", "SnacksPickerPreview", "SnacksPickerInput",
-      "SnacksNormal", "SnacksDashboard", "SnacksExplorer",
-      "NeoTreeNormal", "NeoTreeNormalNC",
+      "Normal",
+      "NormalNC",
+      "NormalFloat",
+      "FloatBorder",
+      "SnacksPickerList",
+      "SnacksPickerPreview",
+      "SnacksPickerInput",
+      "SnacksNormal",
+      "SnacksDashboard",
+      "SnacksExplorer",
+      "NeoTreeNormal",
+      "NeoTreeNormalNC",
     }
     for _, group in ipairs(groups) do
       vim.api.nvim_set_hl(0, group, { bg = "NONE" })
@@ -55,3 +63,15 @@ end
 
 set_autoformat({ "c" }, false)
 set_autoformat({ "yaml" }, false)
+
+-- Disable mouse in terminal mode so selection doesn't bleed into Neovim buffers
+vim.api.nvim_create_autocmd("TermEnter", {
+  callback = function()
+    vim.opt.mouse = ""
+  end,
+})
+vim.api.nvim_create_autocmd("TermLeave", {
+  callback = function()
+    vim.opt.mouse = "a"
+  end,
+})
