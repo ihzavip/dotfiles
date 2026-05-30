@@ -4,4 +4,5 @@ prepend_keymap = [
   { on = "!",        run = "shell zsh --block",                                                desc = "Open shell here" },
   { on = "zh",       run = "hidden toggle",                                                    desc = "Toggle hidden files" },
   { on = ["y", "p"], run = "shell --confirm 'printf \"%s\" \"$1\" | xclip -selection clipboard'", desc = "Copy path to clipboard" },
+  { on = "O",        run = "shell --orphan 'nsxiv -a \"$(dirname \"$@\")\"'",                      desc = "View all images in dir" },
 ]

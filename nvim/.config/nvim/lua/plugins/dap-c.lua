@@ -1,7 +1,14 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    opts = function()
+    config = function()
+      vim.fn.sign_define("DapBreakpoint",          { text = "●", texthl = "DiagnosticError",   linehl = "DapBreakpointLine",  numhl = "" })
+      vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DiagnosticWarn",    linehl = "DapBreakpointLine",  numhl = "" })
+      vim.fn.sign_define("DapLogPoint",            { text = "◉", texthl = "DiagnosticInfo",    linehl = "",                   numhl = "" })
+      vim.fn.sign_define("DapStopped",             { text = "▶", texthl = "DiagnosticOk",      linehl = "DapStoppedLine",     numhl = "" })
+      vim.fn.sign_define("DapBreakpointRejected",  { text = "○", texthl = "DiagnosticError",   linehl = "",                   numhl = "" })
+      vim.api.nvim_set_hl(0, "DapBreakpointLine", { bg = "#3c1010" })
+      vim.api.nvim_set_hl(0, "DapStoppedLine",    { bg = "#1a3a1a" })
       local dap = require("dap")
       dap.adapters.codelldb = {
         type = "server",
@@ -16,21 +23,7 @@ return {
           name = "Launch",
           type = "codelldb",
           request = "launch",
-          program = function()
-            local cwd = vim.fn.getcwd()
-            local name = vim.fn.fnamemodify(cwd, ":t")
-            local candidates = {
-              cwd .. "/build/Debug/" .. name,
-              cwd .. "/build/" .. name,
-              cwd .. "/build/Release/" .. name,
-            }
-            for _, path in ipairs(candidates) do
-              if vim.fn.filereadable(path) == 1 then
-                return path
-              end
-            end
-            return vim.fn.input("Binary: ", cwd .. "/build/Debug/", "file")
-          end,
+          program = "/home/lucy/Documents/c/build/Debug/topdown",
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
           args = {},
@@ -39,7 +32,7 @@ return {
     end,
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, { "codelldb" })

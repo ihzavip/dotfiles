@@ -24,6 +24,7 @@ font pango:monospace 8
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id dunst
 
 # keyboard settings (caps:swapescape + key rate)
 exec --no-startup-id keyboard-setup
@@ -53,13 +54,16 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +3% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id volume-up && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym $mod+comma exec --no-startup-id playerctl previous
+bindsym $mod+period exec --no-startup-id playerctl play-pause
+bindsym $mod+slash exec --no-startup-id playerctl next
 
 # greenclip
 exec --no-startup-id greenclip daemon
@@ -274,8 +278,8 @@ exec --no-startup-id unclutter --timeout 5
 # lock-session
 bindsym $mod+Shift+s exec betterlockscreen -s
 
-# auto-sleep after 15 minutes of inactivity
-exec --no-startup-id xautolock -time 15 -locker "betterlockscreen -s"
+# auto-sleep after 30 minutes of inactivity
+exec --no-startup-id xautolock -time 30 -locker "betterlockscreen -s"
 
 mode "exit: [l]ogout, [r]eboot, [h]ibernate, [s]leep, [p]oweroff" {
     bindsym l exec "$HOME/Utility/i3-restore/i3-save && i3-msg 'exit'"

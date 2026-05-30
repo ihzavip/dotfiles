@@ -26,20 +26,23 @@ play = [
   { run = 'mpv "$@"', orphan = true },
 ]
 view = [
-  { run = 'nsxiv -a "$(dirname "$1")"', orphan = true, desc = "View image" },
+  { run = 'nsxiv -a "$(dirname "$1")"', orphan = true, desc = "View all images in dir" },
+]
+view-single = [
+  { run = 'nsxiv "$1"', orphan = true, desc = "View image" },
 ]
 
 [open]
 rules = [
   { mime = "text/*",  use = "edit" },
-  { name = "*.conf",  use = "edit" },
-  { name = "*.lua",   use = "edit" },
-  { name = "*.toml",  use = "edit" },
-  { name = "*.yml",   use = "edit" },
-  { name = "*.yaml",  use = "edit" },
-  { name = "*.sh",    use = "edit" },
-  { name = "*.c",     use = "edit" },
-  { name = "*.h",     use = "edit" },
+  { url = "*.conf",  use = "edit" },
+  { url = "*.lua",   use = "edit" },
+  { url = "*.toml",  use = "edit" },
+  { url = "*.yml",   use = "edit" },
+  { url = "*.yaml",  use = "edit" },
+  { url = "*.sh",    use = "edit" },
+  { url = "*.c",     use = "edit" },
+  { url = "*.h",     use = "edit" },
   { mime = "application/zip",             use = "extract" },
   { mime = "application/x-tar",           use = "extract" },
   { mime = "application/x-bzip2",         use = "extract" },
@@ -49,5 +52,5 @@ rules = [
   { mime = "image/*", use = "view" },
   { mime = "video/*", use = "play" },
   { mime = "audio/*", use = "play" },
-  { name = "*",       use = "open" },
+  { url = "*",        use = "open" },
 ]

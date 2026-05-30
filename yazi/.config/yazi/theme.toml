@@ -4,14 +4,15 @@ cwd = { fg = "#83a598" }
 hovered         = { fg = "#282828", bg = "#fabd2f" }
 preview_hovered = { underline = true }
 
-filetypes = [
-  { name = "*.c",    fg = "#fb4934" },
-  { name = "*.h",    fg = "#fabd2f" },
-  { name = "*.lua",  fg = "#83a598" },
-  { name = "*.md",   fg = "#b8bb26" },
-  { name = "*.toml", fg = "#d3869b" },
-  { name = "*.yml",  fg = "#d3869b" },
-  { name = "*.sh",   fg = "#8ec07c" },
+[filetype]
+rules = [
+  { url = "*.c",    fg = "#fb4934" },
+  { url = "*.h",    fg = "#fabd2f" },
+  { url = "*.lua",  fg = "#83a598" },
+  { url = "*.md",   fg = "#b8bb26" },
+  { url = "*.toml", fg = "#d3869b" },
+  { url = "*.yml",  fg = "#d3869b" },
+  { url = "*.sh",   fg = "#8ec07c" },
 ]
 
 [status]
