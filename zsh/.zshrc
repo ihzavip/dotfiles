@@ -133,3 +133,5 @@ eval "$(zoxide init zsh)"
 
 # Starship must init last so it wraps zle-keymap-select after fzf and other plugins
 eval "$(starship init zsh)"
+# GITHUB_PERSONAL_ACCESS_TOKEN moved to ~/.zshenv so non-interactive shells
+# (e.g. the env Claude Code's GitHub MCP server inherits) also get it.
