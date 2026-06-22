@@ -3,6 +3,8 @@
 # Commands: display (default) | toggle | reset | up | down
 # Env overrides (testing): TIMER_STATE (state file), TIMER_NOW (unix epoch).
 
+set -u
+
 STATE="${TIMER_STATE:-${XDG_RUNTIME_DIR:-/tmp}/polybar-timer}"
 
 C_GREEN="#b8bb26"
@@ -66,6 +68,7 @@ cmd_display() {
       fi
       ;;
     done)    render_done ;;
+    *)       color "$C_DIM" "$ICON" ;;
   esac
   echo
 }
