@@ -55,7 +55,7 @@ render_done() {
 cmd_display() {
   read_state
   case "$STATUS" in
-    idle)    color "$C_DIM" "$ICON" ;;
+    idle)    color "$C_DIM" "$ICON " ;;
     stopped) color "$C_YELLOW" "$ICON $(fmt "$VALUE")" ;;
     running)
       local rem=$(( VALUE - $(now) ))
@@ -68,7 +68,7 @@ cmd_display() {
       fi
       ;;
     done)    render_done ;;
-    *)       color "$C_DIM" "$ICON" ;;
+    *)       color "$C_DIM" "$ICON " ;;
   esac
   echo
 }

@@ -22,7 +22,7 @@ fresh_state() { # prints a unique temp state path
 
 S=$(fresh_state)
 out=$(TIMER_STATE="$S" bash "$BIN" display)
-assert_eq "fresh state displays dim idle icon" '%{F#928374}󰔛%{F-}' "$out"
+assert_eq "fresh state displays dim idle icon" '%{F#928374}󰔛 %{F-}' "$out"
 
 S=$(fresh_state)
 TIMER_STATE="$S" bash "$BIN" up >/dev/null
@@ -40,7 +40,7 @@ S=$(fresh_state)
 TIMER_STATE="$S" bash "$BIN" up >/dev/null      # 01:00
 TIMER_STATE="$S" bash "$BIN" down >/dev/null    # back to idle (floor)
 out=$(TIMER_STATE="$S" bash "$BIN" display)
-assert_eq "scroll down to zero floors to idle" '%{F#928374}󰔛%{F-}' "$out"
+assert_eq "scroll down to zero floors to idle" '%{F#928374}󰔛 %{F-}' "$out"
 
 # --- Task 2: toggle / running ---
 
@@ -70,7 +70,7 @@ S=$(fresh_state)
 TIMER_STATE="$S" bash "$BIN" up >/dev/null
 TIMER_STATE="$S" bash "$BIN" reset >/dev/null
 out=$(TIMER_STATE="$S" bash "$BIN" display)
-assert_eq "reset returns to idle" '%{F#928374}󰔛%{F-}' "$out"
+assert_eq "reset returns to idle" '%{F#928374}󰔛 %{F-}' "$out"
 
 # Expiry fires notify exactly once and flips to done. Mock dunstify on PATH.
 S=$(fresh_state)
@@ -98,7 +98,7 @@ assert_eq "done blinks dim on odd second" '%{F#928374}󰔛 00:00%{F-}' "$out"
 # reset clears done.
 TIMER_STATE="$S" bash "$BIN" reset >/dev/null
 out=$(TIMER_STATE="$S" bash "$BIN" display)
-assert_eq "reset clears done back to idle" '%{F#928374}󰔛%{F-}' "$out"
+assert_eq "reset clears done back to idle" '%{F#928374}󰔛 %{F-}' "$out"
 
 # Scroll up while running extends the end-epoch by 60s.
 S=$(fresh_state)
