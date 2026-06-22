@@ -41,8 +41,24 @@ cmd_display() {
   case "$STATUS" in
     idle)    color "$C_DIM" "$ICON" ;;
     stopped) color "$C_YELLOW" "$ICON $(fmt "$VALUE")" ;;
+    running)
+      local rem=$(( VALUE - $(now) ))
+      color "$C_GREEN" "$ICON $(fmt "$rem")"
+      ;;
   esac
   echo
+}
+
+cmd_toggle() {
+  read_state
+  case "$STATUS" in
+    stopped) write_state running $(( $(now) + VALUE )) ;;
+    running)
+      local rem=$(( VALUE - $(now) ))
+      (( rem < 0 )) && rem=0
+      write_state stopped "$rem"
+      ;;
+  esac
 }
 
 cmd_up() {
@@ -64,7 +80,8 @@ cmd_down() {
 }
 
 case "${1:-display}" in
-  up)    cmd_up ;;
-  down)  cmd_down ;;
-  *)     cmd_display ;;
+  up)     cmd_up ;;
+  down)   cmd_down ;;
+  toggle) cmd_toggle ;;
+  *)      cmd_display ;;
 esac

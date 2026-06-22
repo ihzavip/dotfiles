@@ -42,5 +42,27 @@ TIMER_STATE="$S" bash "$BIN" down >/dev/null    # back to idle (floor)
 out=$(TIMER_STATE="$S" bash "$BIN" display)
 assert_eq "scroll down to zero floors to idle" '%{F#928374}󰔛%{F-}' "$out"
 
+# --- Task 2: toggle / running ---
+
+S=$(fresh_state)
+TIMER_STATE="$S" bash "$BIN" up >/dev/null      # 01:00 stopped
+TIMER_STATE="$S" bash "$BIN" up >/dev/null      # 02:00 stopped
+TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" toggle >/dev/null   # start at t=1000 -> end 1120
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "running shows green countdown 02:00 at start" '%{F#b8bb26}󰔛 02:00%{F-}' "$out"
+
+out=$(TIMER_STATE="$S" TIMER_NOW=1090 bash "$BIN" display)   # 30s left
+assert_eq "running counts down to 00:30" '%{F#b8bb26}󰔛 00:30%{F-}' "$out"
+
+TIMER_STATE="$S" TIMER_NOW=1090 bash "$BIN" toggle >/dev/null  # pause with 30s left
+out=$(TIMER_STATE="$S" bash "$BIN" display)
+assert_eq "pause freezes at yellow 00:30" '%{F#fabd2f}󰔛 00:30%{F-}' "$out"
+
+S=$(fresh_state)
+out_before=$(TIMER_STATE="$S" bash "$BIN" display)
+TIMER_STATE="$S" bash "$BIN" toggle >/dev/null  # toggle from idle = no-op
+out_after=$(TIMER_STATE="$S" bash "$BIN" display)
+assert_eq "toggle from idle is a no-op" "$out_before" "$out_after"
+
 printf '\n%d passed, %d failed\n' "$PASS" "$FAIL"
 [[ "$FAIL" -eq 0 ]]
