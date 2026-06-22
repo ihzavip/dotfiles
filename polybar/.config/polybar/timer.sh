@@ -36,6 +36,20 @@ fmt() { # SECONDS -> MM:SS
 
 color() { printf '%%{F%s}%s%%{F-}' "$1" "$2"; }
 
+notify() {
+  dunstify -u critical "⏰ Timer done" >/dev/null 2>&1 \
+    || notify-send "⏰ Timer done" >/dev/null 2>&1 \
+    || true
+}
+
+render_done() {
+  if (( $(now) % 2 == 0 )); then
+    color "$C_RED" "$ICON $(fmt 0)"
+  else
+    color "$C_DIM" "$ICON $(fmt 0)"
+  fi
+}
+
 cmd_display() {
   read_state
   case "$STATUS" in
@@ -43,8 +57,15 @@ cmd_display() {
     stopped) color "$C_YELLOW" "$ICON $(fmt "$VALUE")" ;;
     running)
       local rem=$(( VALUE - $(now) ))
-      color "$C_GREEN" "$ICON $(fmt "$rem")"
+      if (( rem <= 0 )); then
+        write_state done 0
+        notify
+        render_done
+      else
+        color "$C_GREEN" "$ICON $(fmt "$rem")"
+      fi
       ;;
+    done)    render_done ;;
   esac
   echo
 }
@@ -58,14 +79,18 @@ cmd_toggle() {
       (( rem < 0 )) && rem=0
       write_state stopped "$rem"
       ;;
+    done)    write_state idle 0 ;;
   esac
 }
+
+cmd_reset() { write_state idle 0; }
 
 cmd_up() {
   read_state
   case "$STATUS" in
     idle)    write_state stopped 60 ;;
     stopped) write_state stopped $(( VALUE + 60 )) ;;
+    running) write_state running $(( VALUE + 60 )) ;;
   esac
 }
 
@@ -76,6 +101,7 @@ cmd_down() {
       local r=$(( VALUE - 60 ))
       if (( r <= 0 )); then write_state idle 0; else write_state stopped "$r"; fi
       ;;
+    running) write_state running $(( VALUE - 60 )) ;;
   esac
 }
 
@@ -83,5 +109,6 @@ case "${1:-display}" in
   up)     cmd_up ;;
   down)   cmd_down ;;
   toggle) cmd_toggle ;;
+  reset)  cmd_reset ;;
   *)      cmd_display ;;
 esac
