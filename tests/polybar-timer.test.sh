@@ -107,5 +107,59 @@ TIMER_STATE="$S" bash "$BIN" up >/dev/null
 out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)   # was 120s, now 180s
 assert_eq "scroll up while running adds a minute" '%{F#b8bb26}󰔛 03:00%{F-}' "$out"
 
+# --- Terminal: set command + duration parsing (starts running immediately) ---
+
+S=$(fresh_state)
+TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" set 25m >/dev/null
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "set 25m starts green 25:00" '%{F#b8bb26}󰔛 25:00%{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" set 25 >/dev/null
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "set 25 (bare) = 25 minutes" '%{F#b8bb26}󰔛 25:00%{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" set 90s >/dev/null
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "set 90s = 01:30" '%{F#b8bb26}󰔛 01:30%{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" set 1h30m >/dev/null
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "set 1h30m = 90:00" '%{F#b8bb26}󰔛 90:00%{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_STATE="$S" bash "$BIN" set abc 2>/dev/null; rc=$?
+assert_eq "set abc exits nonzero" "1" "$rc"
+out=$(TIMER_STATE="$S" bash "$BIN" display)
+assert_eq "set abc leaves state idle" '%{F#928374}󰔛 %{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_STATE="$S" bash "$BIN" set 0 2>/dev/null; rc=$?
+assert_eq "set 0 exits nonzero" "1" "$rc"
+
+S=$(fresh_state)
+TIMER_STATE="$S" bash "$BIN" set 2>/dev/null; rc=$?
+assert_eq "set with no arg exits nonzero" "1" "$rc"
+
+# --- Terminal wrapper (~/.local/bin/timer) ---
+WRAP="${TIMER_WRAP:-local/.local/bin/timer}"
+
+S=$(fresh_state)
+TIMER_BIN="$BIN" TIMER_STATE="$S" TIMER_NOW=1000 bash "$WRAP" 25m >/dev/null
+out=$(TIMER_STATE="$S" TIMER_NOW=1000 bash "$BIN" display)
+assert_eq "wrapper: timer 25m starts 25:00" '%{F#b8bb26}󰔛 25:00%{F-}' "$out"
+
+S=$(fresh_state); printf 'running 9999\n' > "$S"
+TIMER_BIN="$BIN" TIMER_STATE="$S" bash "$WRAP" stop >/dev/null
+out=$(TIMER_STATE="$S" bash "$BIN" display)
+assert_eq "wrapper: timer stop resets to idle" '%{F#928374}󰔛 %{F-}' "$out"
+
+S=$(fresh_state)
+TIMER_BIN="$BIN" TIMER_STATE="$S" TIMER_NOW=1000 bash "$WRAP" 25m >/dev/null
+out=$(TIMER_BIN="$BIN" TIMER_STATE="$S" TIMER_NOW=1000 bash "$WRAP" status)
+assert_eq "wrapper: timer status strips color tags" '󰔛 25:00' "$out"
+
 printf '\n%d passed, %d failed\n' "$PASS" "$FAIL"
 [[ "$FAIL" -eq 0 ]]

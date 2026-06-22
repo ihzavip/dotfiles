@@ -1,0 +1,24 @@
+#!/bin/bash
+# Terminal control for the polybar timer. Thin wrapper over timer.sh.
+#
+#   timer <duration>      start a countdown now (25m, 90s, 1h30m, or 25 = minutes)
+#   timer set <duration>  same as above
+#   timer stop            reset to idle
+#   timer pause           pause / resume
+#   timer status          print remaining (no polybar color tags)
+
+TIMER="${TIMER_BIN:-$HOME/.config/polybar/timer.sh}"
+
+usage() {
+  echo "usage: timer <duration> | set <duration> | stop | pause | status"
+  echo "  duration: 25m  90s  1h30m  25 (bare = minutes); starts immediately"
+}
+
+case "${1:-status}" in
+  set)          exec "$TIMER" set "${2:-}" ;;
+  stop|reset)   exec "$TIMER" reset ;;
+  pause|toggle) exec "$TIMER" toggle ;;
+  status)       "$TIMER" display | sed 's/%{[^}]*}//g' ;;
+  -h|--help)    usage ;;
+  *)            exec "$TIMER" set "$1" ;;
+esac

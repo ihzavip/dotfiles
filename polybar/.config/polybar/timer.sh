@@ -88,6 +88,39 @@ cmd_toggle() {
 
 cmd_reset() { write_state idle 0; }
 
+# Parse a duration to seconds. Bare integer = minutes; otherwise a run of
+# <n>h / <n>m / <n>s tokens (e.g. 1h30m). Echoes seconds; returns 1 on invalid
+# or non-positive input.
+parse_duration() {
+  local in="$1" total=0 n u
+  [[ -n "$in" ]] || return 1
+  if [[ "$in" =~ ^[0-9]+$ ]]; then
+    total=$(( in * 60 ))
+  elif [[ "$in" =~ ^([0-9]+[hms])+$ ]]; then
+    while [[ "$in" =~ ^([0-9]+)([hms])(.*)$ ]]; do
+      n=${BASH_REMATCH[1]}; u=${BASH_REMATCH[2]}; in=${BASH_REMATCH[3]}
+      case "$u" in
+        h) total=$(( total + n * 3600 )) ;;
+        m) total=$(( total + n * 60 )) ;;
+        s) total=$(( total + n )) ;;
+      esac
+    done
+  else
+    return 1
+  fi
+  (( total > 0 )) || return 1
+  echo "$total"
+}
+
+cmd_set() {
+  local secs
+  secs=$(parse_duration "${1:-}") || {
+    echo "timer: invalid duration: '${1:-}' (try 25m, 90s, 1h30m, or 25)" >&2
+    return 1
+  }
+  write_state running $(( $(now) + secs ))
+}
+
 cmd_up() {
   read_state
   case "$STATUS" in
@@ -113,5 +146,6 @@ case "${1:-display}" in
   down)   cmd_down ;;
   toggle) cmd_toggle ;;
   reset)  cmd_reset ;;
+  set)    cmd_set "${2:-}" ;;
   *)      cmd_display ;;
 esac
