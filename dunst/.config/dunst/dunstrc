@@ -1,4 +1,7 @@
 [global]
+    # Show notifications on the monitor with keyboard focus (follows the
+    # focused window across monitors). monitor= is the fallback when follow=none.
+    follow = keyboard
     monitor = 0
     origin = top-right
     offset = 10x40
