@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 if xdotool search --class "floating-term" > /dev/null 2>&1; then
-    i3-msg '[class="floating-term"] scratchpad show, move position center'
+    # Re-size on every show so the geometry self-heals after a resolution /
+    # monitor change (otherwise stale geometry can push it off-screen).
+    i3-msg '[class="floating-term"] scratchpad show, resize set 80 ppt 80 ppt, move position center'
 else
     kitty --class floating-term -e tmux new-session -A -s floating &
 fi

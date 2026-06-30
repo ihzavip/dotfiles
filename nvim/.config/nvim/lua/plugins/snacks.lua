@@ -1,7 +1,17 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    -- Keep indent guides but disable the scroll animation: redrawing the
+    -- animated guides on every j/k move lags on the 1440p external monitor.
+    indent = {
+      animate = { enabled = false },
+    },
     picker = {
+      sources = {
+        todo_comments = {
+          args = { "--glob", "!**/vendored/**", "--glob", "!**/vendor/**" },
+        },
+      },
       win = {
         input = {
           keys = {

@@ -29,14 +29,17 @@ exec --no-startup-id dunst
 # keyboard settings (caps:swapescape + key rate)
 exec --no-startup-id keyboard-setup
 
+# mouse sensitivity (SONiX MINOS XT)
+exec --no-startup-id xinput set-prop "SONiX MINOS XT" "libinput Accel Speed" -0.4
+
 # wallpaper
-exec --no-startup-id feh --bg-fill ~/Documents/Pictures/sasha-matic-73NEchmtA6s-unsplash.jpg
+exec --no-startup-id feh --bg-fill ~/Documents/Pictures/pexels-evie-shaffer-1259279-4060937.jpg
 
 # brightness
-# Brightness up
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
-# Brightness down
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
+bindsym $mod+F5 exec --no-startup-id brightnessctl set 1%-
+bindsym $mod+F6 exec --no-startup-id brightnessctl set +1%
 
 # picom
 exec --no-startup-id picom --vsync
@@ -58,6 +61,9 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id volume-up && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# toggle audio output between monitor (HDMI) and headphone jack (analog)
+bindsym $mod+Shift+a exec --no-startup-id toggle-audio
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
@@ -72,19 +78,23 @@ exec --no-startup-id greenclip daemon
 bindsym XF86PowerOff exec --no-startup-id betterlockscreen -s
 
 # Window search
-bindsym $mod+Tab exec --no-startup-id rofi -show window
+# bindsym $mod+Tab exec --no-startup-id rofi -show window
 
 # Cycle to next workspace
-bindsym $mod+ctrl+Tab workspace next
+# bindsym $mod+ctrl+Tab workspace next
+bindsym $mod+Tab workspace next
 
 # Cycle to previous workspace
-bindsym $mod+ctrl+Shift+Tab workspace prev
+# bindsym $mod+ctrl+Shift+Tab workspace prev
+bindsym $mod+Shift+Tab workspace prev
 
 # Back and Forth workspace
 # workspace_auto_back_and_forth yes
 
 # Toggle back and forth
 bindsym Mod4+grave workspace back_and_forth
+bindsym $mod+minus workspace back_and_forth
+bindsym $mod+Escape workspace back_and_forth
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -98,14 +108,14 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec --no-startup-id setsid kitty
 bindsym $mod+Shift+Return exec setsid kitty --override 'shell=/usr/bin/zsh'
 
-# tmux next window
-bindsym $mod+bracketright exec --no-startup-id bash -c '[[ "$(xdotool getactivewindow getwindowclassname)" =~ ^(kitty|floating-term)$ ]] && tmux next-window'
+# tmux next window (targets the tmux session in the focused window)
+bindsym $mod+bracketright exec --no-startup-id tmux-focused next-window
 
-# tmux prev window
-bindsym $mod+bracketleft exec --no-startup-id bash -c '[[ "$(xdotool getactivewindow getwindowclassname)" =~ ^(kitty|floating-term)$ ]] && tmux previous-window'
+# tmux prev window (targets the tmux session in the focused window)
+bindsym $mod+bracketleft exec --no-startup-id tmux-focused previous-window
 
-# tmux zoom (only when kitty is focused)
-bindsym $mod+z exec --no-startup-id bash -c '[[ "$(xdotool getactivewindow getwindowclassname)" =~ ^(kitty|floating-term)$ ]] && tmux resize-pane -Z'
+# tmux zoom (targets the tmux session in the focused window)
+bindsym $mod+z exec --no-startup-id tmux-focused resize-pane -Z
 
 # floating scratchpad terminal
 for_window [class="floating-term"] floating enable, resize set 80 ppt 80 ppt, move position center, move scratchpad
@@ -150,6 +160,14 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# move focus between monitors (outputs)
+bindsym $mod+Ctrl+h focus output left
+bindsym $mod+Ctrl+l focus output right
+
+# move the focused window to the other monitor
+bindsym $mod+Ctrl+Shift+h move container to output left
+bindsym $mod+Ctrl+Shift+l move container to output right
+
 # split in horizontal orientation
 # bindsym $mod+h split h
 
@@ -193,6 +211,19 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# Assign workspaces to outputs (HDMI-2 = external, eDP-1 = laptop).
+# Second output is a fallback used when undocked.
+workspace $ws1  output HDMI-2 eDP-1
+workspace $ws2  output HDMI-2 eDP-1
+workspace $ws3  output HDMI-2 eDP-1
+workspace $ws4  output HDMI-2 eDP-1
+workspace $ws5  output eDP-1
+workspace $ws6  output HDMI-2 eDP-1
+workspace $ws7  output HDMI-2 eDP-1
+workspace $ws8  output HDMI-2 eDP-1
+workspace $ws9  output HDMI-2 eDP-1
+workspace $ws10 output HDMI-2 eDP-1
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -257,7 +288,6 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-bindsym $mod+minus workspace back_and_forth
 bindsym $mod+equal exec --no-startup-id polybar-msg cmd toggle
 
 # Example (Gruvbox colors, adjust to taste)
@@ -279,7 +309,9 @@ exec --no-startup-id unclutter --timeout 5
 bindsym $mod+Shift+s exec betterlockscreen -s
 
 # auto-sleep after 30 minutes of inactivity
-exec --no-startup-id xautolock -time 30 -locker "betterlockscreen -s"
+exec --no-startup-id xautolock -time 180 -locker "betterlockscreen -s"
+# turn screen off after 30 minutes via DPMS (1800 seconds)
+exec --no-startup-id xset dpms 0 0 1800
 
 mode "exit: [l]ogout, [r]eboot, [h]ibernate, [s]leep, [p]oweroff" {
     bindsym l exec "$HOME/Utility/i3-restore/i3-save && i3-msg 'exit'"

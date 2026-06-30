@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Toggle audio output between the external monitor (HDMI) and the headphone
+# jack (analog). Laptop speakers are dead, so analog == headphones in practice.
+# Bound to $mod+Shift+a in i3.
+CARD=alsa_card.pci-0000_00_1f.3
+
+if pactl get-default-sink | grep -qi hdmi; then
+    # Currently on HDMI -> switch to the headphone jack
+    pactl set-card-profile "$CARD" output:analog-stereo+input:analog-stereo
+    out="Headphones (jack)"
+else
+    # Currently on analog -> switch to the monitor
+    pactl set-card-profile "$CARD" output:hdmi-stereo+input:analog-stereo
+    out="Monitor (HDMI)"
+fi
+
+command -v notify-send >/dev/null 2>&1 && notify-send -t 1500 "Audio output" "$out"
