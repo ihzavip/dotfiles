@@ -1,0 +1,10 @@
+
+set recolor true
+set recolor-lightcolor "#000000"
+set recolor-darkcolor  "#FFFFFF"
+set recolor-keephue true
+set zoom-step 10
+set adjust-open "best-fit"   # or "width" if you want full width
+set selection-clipboard clipboard
+
+# Link hints — fully opaque for visibility in dark mode

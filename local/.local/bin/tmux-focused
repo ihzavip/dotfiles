@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Run a tmux command against the session shown in the currently-focused window.
+#
+# Each kitty runs its own tmux session, and a bare `tmux next-window` targets
+# tmux's globally most-recently-active client -- not the terminal i3 has
+# focused. That makes $mod+]/[/z drive the wrong (e.g. hidden scratchpad)
+# session. This maps the focused X window -> its process tree -> the attached
+# tmux client's session, so the command always acts on the terminal in front
+# of you. No-ops quietly when the focused window isn't running tmux.
+#
+# Usage: tmux-focused <tmux-subcommand> [args...]
+#   e.g. tmux-focused next-window
+#        tmux-focused previous-window
+#        tmux-focused resize-pane -Z
+
+win_pid=$(xdotool getactivewindow getwindowpid 2>/dev/null) || exit 0
+[[ -n "$win_pid" ]] || exit 0
+
+# The focused window's PID plus every descendant.
+descendants() {
+    local p=$1 c
+    printf '%s\n' "$p"
+    for c in $(pgrep -P "$p" 2>/dev/null); do
+        descendants "$c"
+    done
+}
+tree=" $(descendants "$win_pid" | tr '\n' ' ') "
+
+# Find the tmux client whose process lives in that tree; use its session.
+session=""
+while read -r cpid csession; do
+    if [[ "$tree" == *" $cpid "* ]]; then
+        session=$csession
+        break
+    fi
+done < <(tmux list-clients -F '#{client_pid} #{client_session}' 2>/dev/null)
+
+# No tmux in the focused window -> nothing to do.
+[[ -n "$session" ]] || exit 0
+
+tmux "$@" -t "$session"

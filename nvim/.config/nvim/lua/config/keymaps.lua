@@ -2,6 +2,18 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+vim.keymap.set("n", "<leader>sf", function()
+  Snacks.picker.grep_word({ dirs = { vim.fn.expand("%:p") } })
+end, { desc = "Search word in current file" })
+
+vim.keymap.set("v", "<leader>sf", function()
+  local s = vim.fn.getpos("'<")
+  local e = vim.fn.getpos("'>")
+  local lines = vim.fn.getregion(s, e, { type = "v" })
+  local text = table.concat(lines, "\n")
+  Snacks.picker.grep({ search = text, dirs = { vim.fn.expand("%:p") } })
+end, { desc = "Search selection in current file" })
+
 vim.keymap.set("v", "<leader>a", function()
   local s = vim.fn.line("v")
   local e = vim.fn.line(".")

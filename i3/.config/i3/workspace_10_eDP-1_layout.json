@@ -3,20 +3,19 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 736,
-       "width": 500,
-       "x": 457,
-       "y": 31
+       "height": 744,
+       "width": 1366,
+       "x": 0,
+       "y": 24
     },
     "marks": [],
-    "name": "ChatGPT - Brave",
+    "name": "Recommended specs for game engines - Claude - Brave",
     "percent": 1,
     "swallows": [
        {
        "class": "^Brave\\-browser$",
        "instance": "^brave\\-browser$",
        "machine": "^lucy$",
-       "title": "^ChatGPT\\ \\-\\ Brave$",
        "window_role": "^browser$"
        }
     ],

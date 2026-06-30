@@ -9,6 +9,13 @@ return {
     },
   },
   {
+    "ellisonleao/gruvbox.nvim",
+    priority = 900,
+    opts = {
+      transparent_mode = false,
+    },
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "catppuccin",

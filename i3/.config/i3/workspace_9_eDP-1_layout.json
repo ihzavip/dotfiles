@@ -8,7 +8,9 @@
        "x": 0,
        "y": 0
     },
-    "marks": [],
+    "marks": [
+       "_i3_restore_focus"
+    ],
     "name": "tmux",
     "percent": 1,
     "swallows": [

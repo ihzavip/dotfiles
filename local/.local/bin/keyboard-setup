@@ -4,6 +4,6 @@ export DISPLAY=:0
 export XAUTHORITY=/home/lucy/.Xauthority
 
 setxkbmap -option caps:swapescape
-xset r rate 300 60
+xset r rate 200 65
 
 echo "Keyboard settings applied."
