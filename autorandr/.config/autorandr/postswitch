@@ -3,7 +3,13 @@
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 
 # Repaint wallpaper for the new screen geometry.
-feh --bg-fill ~/Documents/Pictures/pexels-evie-shaffer-1259279-4060937.jpg
+WALLPAPER=~/Documents/Pictures/pexels-evie-shaffer-1259279-4060937.jpg
+feh --bg-fill "$WALLPAPER"
+
+# Rebuild the lock-screen cache for the new geometry. betterlockscreen caches
+# per-resolution, so a stale cache from the old layout gets stretched/cut off.
+# Backgrounded: the imagemagick render takes a few seconds.
+betterlockscreen -u "$WALLPAPER" >/dev/null 2>&1 &
 
 # Route audio by dock state: HDMI (monitor speakers) when docked, analog
 # (headphone jack) when undocked. Laptop speakers are dead, so never analog-out
