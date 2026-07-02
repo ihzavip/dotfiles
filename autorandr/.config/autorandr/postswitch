@@ -13,3 +13,14 @@ case "$AUTORANDR_CURRENT_PROFILE" in
   docked) pactl set-card-profile "$CARD" output:hdmi-stereo+input:analog-stereo ;;
   mobile) pactl set-card-profile "$CARD" output:analog-stereo+input:analog-stereo ;;
 esac
+
+# Resync i3 to the new output layout. autorandr repositions the monitors at the
+# X level, but i3 caches output geometry and only refreshes on a RandR event it
+# actually receives; a profile switch can leave i3 on the old arrangement,
+# drawing windows straddling the wrong monitor (the "split"). An in-place restart
+# makes i3 re-query xrandr — it preserves the session and re-runs exec_always,
+# which relaunches one polybar per connected monitor. (restart closes the IPC
+# socket as it returns, so a non-zero exit here is expected; swallow it.)
+if command -v i3-msg >/dev/null 2>&1; then
+  i3-msg restart >/dev/null 2>&1 || true
+fi
