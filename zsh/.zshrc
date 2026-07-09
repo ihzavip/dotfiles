@@ -17,6 +17,7 @@ alias nf='clear && neofetch'
 alias q='exit'
 alias icat="kitten icat" # image, picture
 alias tl="tmux ls"
+alias i3-save="$HOME/Utility/i3-restore/i3-save" # save i3 session layout
 ta() { tmux attach -t "$1" }
 td() { tmux detach-client -s "$1" }
 tk() { tmux kill-session -t "$1" }
