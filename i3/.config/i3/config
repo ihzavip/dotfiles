@@ -35,6 +35,9 @@ exec --no-startup-id xinput set-prop "SONiX MINOS XT" "libinput Accel Speed" -0.
 # wallpaper
 exec --no-startup-id feh --bg-fill ~/Documents/Pictures/pexels-evie-shaffer-1259279-4060937.jpg
 
+# on-screen annotation daemon (gromit-mpx); toggle/clear/undo bound below
+exec --no-startup-id gromit-mpx
+
 # brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 1%-
@@ -249,8 +252,6 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
@@ -259,6 +260,18 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # printscreen
 bindsym Print exec scrot ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png && notify-send "Screenshot saved"
 bindsym Shift+Print exec scrot -s ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png
+# region select straight to clipboard (needs xclip for image/png target)
+bindsym $mod+Shift+s exec --no-startup-id scrot -s - | xclip -selection clipboard -t image/png && notify-send "Screenshot copied to clipboard"
+# active window: save to file AND copy to clipboard (-u = focused window, -e copies the saved file)
+bindsym $mod+Shift+c exec --no-startup-id scrot -u ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png -e 'xclip -selection clipboard -t image/png -i $f' && notify-send "Window screenshot saved + copied"
+
+# notification history: browse past notifications in rofi, select to copy body
+bindsym $mod+Shift+n exec --no-startup-id ~/.config/dunst/notif-history.sh
+
+# on-screen annotation (gromit-mpx): draw over the screen for demos/notes
+bindsym $mod+Shift+d exec --no-startup-id gromit-mpx --toggle
+bindsym $mod+Shift+x exec --no-startup-id gromit-mpx --clear
+bindsym $mod+Shift+z exec --no-startup-id gromit-mpx --undo
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -306,7 +319,7 @@ new_window pixel 1
 exec --no-startup-id unclutter --timeout 5
 
 # lock-session
-bindsym $mod+Shift+s exec betterlockscreen -s
+bindsym $mod+BackSpace exec betterlockscreen -s
 
 # auto-sleep after 30 minutes of inactivity
 exec --no-startup-id xautolock -time 180 -locker "betterlockscreen -s"
