@@ -3,13 +3,13 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 744,
-       "width": 1366,
+       "height": 1400,
+       "width": 2560,
        "x": 0,
        "y": 0
     },
     "marks": [],
-    "name": "tmux",
+    "name": "ta c",
     "percent": 1,
     "swallows": [
        {

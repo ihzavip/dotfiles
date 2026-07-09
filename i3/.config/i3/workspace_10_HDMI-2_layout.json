@@ -3,21 +3,20 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 744,
-       "width": 1366,
-       "x": 0,
+       "height": 767,
+       "width": 1365,
+       "x": 2560,
        "y": 0
     },
-    "marks": [
-       "_i3_restore_focus"
-    ],
-    "name": "tmux",
+    "marks": [],
+    "name": "ChatGPT - Brave",
     "percent": 1,
     "swallows": [
        {
-       "class": "^kitty$",
-       "instance": "^kitty$",
+       "class": "^Brave\\-browser$",
+       "instance": "^brave\\-browser$",
        "machine": "^lucy$",
+       "window_role": "^browser$"
        }
     ],
     "type": "con"
