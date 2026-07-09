@@ -42,3 +42,9 @@
     foreground = "#fb4934"
     frame_color = "#fb4934"
     timeout = 0
+
+# Append every notification to a persistent history log (browse with
+# $mod+Shift+n -> notif-history.sh). Survives dunst restarts / monitor switches.
+[history_log]
+    summary = "*"
+    script = ~/.config/dunst/log-notification.sh
