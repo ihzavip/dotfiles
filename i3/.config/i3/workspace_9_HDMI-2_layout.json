@@ -8,39 +8,16 @@
        "x": 0,
        "y": 0
     },
-    "marks": [],
-    "name": "~",
-    "percent": 0.5,
-    "swallows": [
-       {
-       "class": "^kitty$",
-       "instance": "^kitty$",
-       "machine": "^lucy$",
-       }
-    ],
-    "type": "con"
-}
-
-{
-    "border": "pixel",
-    "current_border_width": 1,
-    "floating": "auto_off",
-    "geometry": {
-       "height": 1150,
-       "width": 2046,
-       "x": 0,
-       "y": 0
-    },
     "marks": [
        "_i3_restore_focus"
     ],
-    "name": "tmux",
-    "percent": 0.5,
+    "name": "ta config",
+    "percent": 1,
     "swallows": [
        {
        "class": "^kitty$",
        "instance": "^kitty$",
-       "machine": "^lucy$",
+       "machine": "^lucy$"
        }
     ],
     "type": "con"

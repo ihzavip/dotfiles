@@ -3,8 +3,8 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1150,
-       "width": 2046,
+       "height": 1414,
+       "width": 851,
        "x": 0,
        "y": 0
     },
@@ -15,7 +15,7 @@
        {
        "class": "^kitty$",
        "instance": "^kitty$",
-       "machine": "^lucy$",
+       "machine": "^lucy$"
        }
     ],
     "type": "con"

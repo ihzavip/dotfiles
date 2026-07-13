@@ -1,5 +1,5 @@
 {
-    "border": "pixel",
+    "border": "none",
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
@@ -9,7 +9,7 @@
        "y": 24
     },
     "marks": [],
-    "name": "2026-07-12 - obsidian - Obsidian 1.12.7",
+    "name": "2026-07-13 - obsidian - Obsidian 1.12.7",
     "percent": 0.6,
     "swallows": [
        {
@@ -35,8 +35,31 @@
             "current_border_width": 1,
             "floating": "auto_off",
             "geometry": {
-               "height": 1150,
-               "width": 2046,
+               "height": 1416,
+               "width": 2560,
+               "x": 10,
+               "y": 34
+            },
+            "marks": [],
+            "name": "nice - Google Search - Brave",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^Brave\\-browser$",
+               "instance": "^brave\\-browser$",
+               "machine": "^lucy$",
+               "window_role": "^browser$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 1,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1414,
+               "width": 851,
                "x": 0,
                "y": 0
             },
@@ -47,30 +70,7 @@
                {
                "class": "^kitty$",
                "instance": "^kitty$",
-               "machine": "^lucy$",
-               }
-            ],
-            "type": "con"
-        },
-        {
-            "border": "pixel",
-            "current_border_width": 1,
-            "floating": "auto_off",
-            "geometry": {
-               "height": 1416,
-               "width": 2560,
-               "x": 10,
-               "y": 34
-            },
-            "marks": [],
-            "name": "ChatGPT - Brave",
-            "percent": 0.5,
-            "swallows": [
-               {
-               "class": "^Brave\\-browser$",
-               "instance": "^brave\\-browser$",
-               "machine": "^lucy$",
-               "window_role": "^browser$"
+               "machine": "^lucy$"
                }
             ],
             "type": "con"

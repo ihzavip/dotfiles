@@ -3,13 +3,13 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1416,
-       "width": 2560,
-       "x": 0,
-       "y": 24
+       "height": 1414,
+       "width": 1790,
+       "x": 1,
+       "y": 25
     },
     "marks": [],
-    "name": "Inbox (603) - hasibuanihza@gmail.com - Gmail - Google Chrome",
+    "name": "Outlier - Google Chrome",
     "percent": 0.7,
     "swallows": [
        {
@@ -23,14 +23,14 @@
 }
 
 {
-    "border": "pixel",
+    "border": "none",
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1037,
-       "width": 729,
-       "x": 1724,
-       "y": 51
+       "height": 1376,
+       "width": 2316,
+       "x": 122,
+       "y": 32
     },
     "marks": [],
     "name": "Outlier - obsidian - Obsidian 1.12.7",
