@@ -270,7 +270,7 @@ bindsym $mod+Shift+n exec --no-startup-id ~/.config/dunst/notif-history.sh
 
 # on-screen annotation (gromit-mpx): draw over the screen for demos/notes
 bindsym $mod+Shift+d exec --no-startup-id gromit-mpx --toggle
-bindsym $mod+Shift+x exec --no-startup-id gromit-mpx --clear
+bindsym $mod+Shift+x exec --no-startup-id gromit-mpx --clear && gromit-mpx --toggle
 bindsym $mod+Shift+z exec --no-startup-id gromit-mpx --undo
 
 # resize window (you can also use the mouse for that)
