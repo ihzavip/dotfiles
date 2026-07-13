@@ -31,6 +31,19 @@ Stow is run from `/home/lucy/dotfiles/`. Each subdirectory (`zsh/`, `tmux/`, `i3
 | `kitty/` | `~/.config/kitty/` | Kitty terminal |
 | `starship/` | `~/.config/starship.toml` | Starship prompt |
 | `nvim/` | `~/.config/nvim/` | Neovim (LazyVim) |
+| `local/` | `~/.local/bin/` | Helper scripts (`toggle-audio`) |
+| `wireplumber/` | `~/.config/wireplumber/` | PipeWire session manager |
+
+## Audio
+
+`toggle-audio` (bound to `$mod+Shift+a`, also polybar click) cycles the default sink:
+headphone jack → HDMI → Bluetooth → back. Bluetooth is skipped when no `bluez_output`
+sink exists. The HDMI sink only exists while the ALSA card is in the `hdmi-stereo`
+profile, so switching to it means changing the card profile, not just the default sink.
+
+WirePlumber is pinned to **A2DP-only** (`wireplumber/…/51-bluez-a2dp-only.conf`). The
+Redmi Buds' firmware rejects HFP/HSP, and BlueZ's failed Hands-Free gateway attempts
+tear down the whole ACL link — killing A2DP with it. Cost: no mic on the buds.
 
 ## Neovim
 
