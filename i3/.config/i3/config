@@ -78,7 +78,7 @@ bindsym $mod+slash exec --no-startup-id playerctl next
 exec --no-startup-id greenclip daemon
 
 # Power button
-bindsym XF86PowerOff exec --no-startup-id betterlockscreen -s
+bindsym XF86PowerOff exec --no-startup-id betterlockscreen -l
 
 # Window search
 # bindsym $mod+Tab exec --no-startup-id rofi -show window
@@ -319,7 +319,7 @@ new_window pixel 1
 exec --no-startup-id unclutter --timeout 5
 
 # lock-session
-bindsym $mod+BackSpace exec betterlockscreen -s
+bindsym $mod+BackSpace exec betterlockscreen -l
 
 # auto-sleep after 30 minutes of inactivity
 exec --no-startup-id xautolock -time 180 -locker "betterlockscreen -s"
