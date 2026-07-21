@@ -321,8 +321,10 @@ exec --no-startup-id unclutter --timeout 5
 # lock-session
 bindsym $mod+BackSpace exec betterlockscreen -l
 
-# auto-sleep after 30 minutes of inactivity
-exec --no-startup-id xautolock -time 180 -locker "betterlockscreen -s"
+# auto-lock after 180 minutes of inactivity (xautolock -time is in MINUTES).
+# Deliberately -l, not -s: S3 resume fails intermittently on this machine, so
+# nothing here may suspend. Screen-off is DPMS's job, below.
+exec --no-startup-id xautolock -time 180 -locker "betterlockscreen -l"
 # turn screen off after 30 minutes via DPMS (1800 seconds)
 exec --no-startup-id xset dpms 0 0 1800
 
