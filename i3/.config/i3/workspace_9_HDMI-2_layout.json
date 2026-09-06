@@ -3,14 +3,12 @@
     "current_border_width": 1,
     "floating": "auto_off",
     "geometry": {
-       "height": 1414,
-       "width": 851,
+       "height": 1416,
+       "width": 2560,
        "x": 0,
        "y": 0
     },
-    "marks": [
-       "_i3_restore_focus"
-    ],
+    "marks": [],
     "name": "ta config",
     "percent": 1,
     "swallows": [

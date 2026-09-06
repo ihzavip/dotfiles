@@ -1,0 +1,4 @@
+#!/bin/sh
+w=$(xclip -sel clip -o 2>/dev/null | tr '\n' ' ')
+[ -n "$w" ] || exit
+kitty --class=zdict --hold -o initial_window_width=80c -o initial_window_height=24c dict -d wn "$w"

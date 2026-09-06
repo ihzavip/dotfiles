@@ -3,7 +3,7 @@
     "floating": "auto_off",
     "layout": "tabbed",
     "marks": [],
-    "percent": 1,
+    "percent": 0.4,
     "type": "con",
     "nodes": [
         {
@@ -11,13 +11,13 @@
             "current_border_width": 1,
             "floating": "auto_off",
             "geometry": {
-               "height": 1410,
+               "height": 1394,
                "width": 2560,
                "x": 0,
                "y": 0
             },
             "marks": [],
-            "name": "ta mt5",
+            "name": "tmux",
             "percent": 1,
             "swallows": [
                {
@@ -29,4 +29,27 @@
             "type": "con"
         }
     ]
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "user_off",
+    "geometry": {
+       "height": 960,
+       "width": 1079,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "The Art & Science of Technical Analysis: Market Structure, Price Action & Trading Strategies (Wiley Trading) [EPUB] — E-book viewer",
+    "percent": 0.6,
+    "swallows": [
+       {
+       "class": "^calibre$",
+       "instance": "^calibre\\-ebook\\-viewer$",
+       "machine": "^lucy$"
+       }
+    ],
+    "type": "con"
 }

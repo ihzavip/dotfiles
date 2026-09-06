@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Open the floating scratchpad terminal at login, pinned to the "floating"
+# session.
+#
+# Attaching before continuum's restore finishes does NOT work: resurrect ends a
+# restore with `switch-client -t <session active at save time>` (restore.sh:212).
+# The floating window is the only attached client at that point, so it gets
+# yanked onto whatever session was last active instead of "floating".
+#
+# So: start the server with nobody attached (switch-client is then a no-op),
+# wait for the restore to land, and only then open the window.
+
+# Sourcing .tmux.conf on server start is what fires continuum's restore.
+tmux start-server
+
+# The restore recreates "floating"; wait for it rather than guessing a sleep.
+# Bail out after ~15s so a missing/empty save file still gets a terminal.
+for _ in $(seq 30); do
+    tmux has-session -t floating 2>/dev/null && break
+    sleep 0.5
+done
+
+# Let the last few panes settle before attaching a client.
+sleep 1
+
+exec kitty --class floating-term -e tmux new-session -A -s floating

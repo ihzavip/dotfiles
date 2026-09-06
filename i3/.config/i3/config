@@ -36,7 +36,8 @@ exec --no-startup-id xinput set-prop "SONiX MINOS XT" "libinput Accel Speed" -0.
 exec --no-startup-id feh --bg-fill ~/Documents/Pictures/pexels-evie-shaffer-1259279-4060937.jpg
 
 # on-screen annotation daemon (gromit-mpx); toggle/clear/undo bound below
-exec --no-startup-id gromit-mpx
+# -k/-u none: drop its global F9/F8 grabs, we use the $mod+Shift binds instead
+# exec --no-startup-id gromit-mpx -k none -u none
 
 # brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +1%
@@ -122,8 +123,17 @@ bindsym $mod+z exec --no-startup-id tmux-focused resize-pane -Z
 
 # floating scratchpad terminal
 for_window [class="floating-term"] floating enable, resize set 80 ppt 80 ppt, move position center, move scratchpad
-exec --no-startup-id sleep 2 && kitty --class floating-term -e tmux new-session -A -s floating
+exec --no-startup-id floating-term-boot
 bindsym $mod+p exec --no-startup-id toggle-term
+
+# zathura dictionary popup (Alt-d in zathura, see ~/.local/bin/zdict)
+for_window [class="zdict"] floating enable, resize set 60 ppt 50 ppt, move position center
+
+# scratchpad: hide focused window / show-hide it back
+# $mod+u cycles the stash one window at a time, skipping the floating terminal
+# (which has its own toggle on $mod+p). See local/.local/bin/scratchpad-cycle.
+bindsym $mod+Shift+u move scratchpad
+bindsym $mod+u exec --no-startup-id scratchpad-cycle
 
 # floating htop
 # bindsym $mod+i exec --no-startup-id tmux display-popup -E -w 80% -h 80% "htop"
@@ -190,7 +200,7 @@ bindsym $mod+e layout toggle split
 # bindsym $mod+e layout toggle split, exec polybar-msg cmd show
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle, resize set 80 ppt 80 ppt, move position center
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -260,8 +270,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # printscreen
 bindsym Print exec scrot ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png && notify-send "Screenshot saved"
 bindsym Shift+Print exec scrot -s ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png
-# region select straight to clipboard (needs xclip for image/png target)
-bindsym $mod+Shift+s exec --no-startup-id scrot -s - | xclip -selection clipboard -t image/png && notify-send "Screenshot copied to clipboard"
+# region select: save to file AND copy to clipboard (-e copies the saved file)
+bindsym $mod+Shift+s exec --no-startup-id scrot -s ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png -e 'xclip -selection clipboard -t image/png -i $f' && notify-send "Screenshot saved + copied"
 # active window: save to file AND copy to clipboard (-u = focused window, -e copies the saved file)
 bindsym $mod+Shift+c exec --no-startup-id scrot -u ~/Documents/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png -e 'xclip -selection clipboard -t image/png -i $f' && notify-send "Window screenshot saved + copied"
 
@@ -315,11 +325,19 @@ client.urgent           #fb4934   #cc241d   #ebdbb2   #fb4934    #fb4934
 hide_edge_borders smart
 new_window pixel 1
 
+# Obsidian is frameless -- it draws its own titlebar and advertises
+# _MOTIF_WM_HINTS decorations=0, so i3 honours that and gives it "border none".
+# Result: no focus outline, unlike every other window. Force the border back.
+# The class is lowercase "obsidian"; "md.Obsidian" is the Flatpak app-ID form
+# and never matches this (pacman) build.
+for_window [class="^obsidian$"] border pixel 1
+
 # unclutter
 exec --no-startup-id unclutter --timeout 5
 
 # lock-session
-bindsym $mod+BackSpace exec betterlockscreen -l
+# bindsym $mod+BackSpace exec betterlockscreen -l
+bindsym $mod+BackSpace exec systemctl suspend
 
 # auto-lock after 180 minutes of inactivity (xautolock -time is in MINUTES).
 # Deliberately -l, not -s: S3 resume fails intermittently on this machine, so

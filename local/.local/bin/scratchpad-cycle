@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""Cycle through i3 scratchpad windows one at a time, skipping the floating term.
+
+Plain `scratchpad show` can't exclude a window, and criteria-based show reveals
+*all* matches at once instead of cycling. So this walks the non-terminal stash
+one window per invocation:
+
+    (all hidden) -> win0 -> win1 -> ... -> winN -> (all hidden) -> win0 -> ...
+
+A stash window keeps `scratchpad_state != "none"` even while it is showing, so
+that is what identifies the ring. The field lives on the `floating_con` wrapper,
+not on the window node itself. Un-tiling a window destroys that wrapper, which
+is how a window you pulled out for good leaves the ring on its own.
+
+The floating terminal (class "floating-term") is never shown or hidden here; it
+has its own dedicated toggle on $mod+p.
+
+i3 re-centres and re-sizes a window every time it comes back out of the
+scratchpad, so the geometry each window had when it was stashed is written to
+STATE (keyed by X11 window id) and replayed on the next show. A window we have
+never seen showing still lands centred at whatever size i3 gives it.
+"""
+import json
+import os
+import subprocess
+
+EXCLUDE_CLASS = "floating-term"
+STATE = os.path.expanduser("~/.cache/scratchpad-cycle-pos.json")
+
+
+def i3(cmd):
+    subprocess.run(["i3-msg", cmd], capture_output=True, text=True)
+
+
+tree = json.loads(subprocess.check_output(["i3-msg", "-t", "get_tree"]))
+
+ring = []
+
+
+def walk(node, in_scratch=False, wrapper=None):
+    here = in_scratch or node.get("name") == "__i3_scratch"
+    # The stash flag sits on the floating_con wrapper; keep its rect for the
+    # window node underneath, which is the only place we learn the position.
+    if wrapper is None and node.get("scratchpad_state", "none") != "none":
+        wrapper = node["rect"]
+    cls = (node.get("window_properties") or {}).get("class")
+    if node.get("window") and wrapper and cls != EXCLUDE_CLASS:
+        ring.append(
+            {
+                "con_id": node["id"],
+                "xid": node["window"],
+                "hidden": here,
+                "geom": [wrapper[k] for k in ("x", "y", "width", "height")],
+            }
+        )
+    for child in node.get("nodes", []) + node.get("floating_nodes", []):
+        walk(child, here, wrapper)
+
+
+walk(tree)
+ring.sort(key=lambda w: w["xid"])  # stable ring order
+
+try:
+    with open(STATE) as f:
+        saved = json.load(f)
+except (OSError, ValueError):
+    saved = {}
+
+shown = [i for i, w in enumerate(ring) if not w["hidden"]]
+
+for i in shown:
+    saved[str(ring[i]["xid"])] = ring[i]["geom"]
+    i3(f"[con_id={ring[i]['con_id']}] move scratchpad")
+
+# Drop entries for windows that no longer exist, so the file cannot grow forever.
+live = {str(w["xid"]) for w in ring}
+saved = {k: v for k, v in saved.items() if k in live}
+os.makedirs(os.path.dirname(STATE), exist_ok=True)
+with open(STATE, "w") as f:
+    json.dump(saved, f)
+
+# Advance past the last visible window; settle on all-hidden once past the end.
+nxt = shown[-1] + 1 if shown else 0
+if nxt < len(ring):
+    win = ring[nxt]
+    geom = saved.get(str(win["xid"]))
+    sel = f"[con_id={win['con_id']}]"
+    if geom:
+        x, y, w, h = geom
+        # Resize first: i3 grows a window about its centre, which shifts x/y.
+        i3(f"{sel} scratchpad show, resize set {w} {h}, move position {x} {y}")
+    else:
+        i3(f"{sel} scratchpad show, move position center")

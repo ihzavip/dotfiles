@@ -1,7 +1,7 @@
 {
     "border": "pixel",
     "floating": "auto_off",
-    "layout": "tabbed",
+    "layout": "splith",
     "marks": [],
     "percent": 1,
     "type": "con",
@@ -11,20 +11,83 @@
             "current_border_width": 1,
             "floating": "auto_off",
             "geometry": {
-               "height": 767,
-               "width": 1365,
-               "x": 2560,
+               "height": 1416,
+               "width": 2560,
+               "x": 0,
                "y": 0
             },
             "marks": [],
-            "name": "ChatGPT - Brave",
-            "percent": 1,
+            "name": "~",
+            "percent": 0.3,
+            "swallows": [
+               {
+               "class": "^kitty$",
+               "instance": "^kitty$",
+               "machine": "^lucy$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 1,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1408,
+               "width": 1790,
+               "x": 769,
+               "y": 31
+            },
+            "marks": [],
+            "name": "BTC Bid 64,741.65 - Brave",
+            "percent": 0.7,
             "swallows": [
                {
                "class": "^Brave\\-browser$",
                "instance": "^brave\\-browser$",
                "machine": "^lucy$",
                "window_role": "^browser$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
+{
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splith",
+    "marks": [],
+    "percent": null,
+    "rect": {
+       "height": 1152,
+       "width": 2048,
+       "x": 256,
+       "y": 159
+    },
+    "type": "floating_con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 1,
+            "floating": "user_on",
+            "geometry": {
+               "height": 1150,
+               "width": 2046,
+               "x": 0,
+               "y": 0
+            },
+            "marks": [
+               "_i3_restore_focus"
+            ],
+            "name": "tmux",
+            "percent": 1,
+            "swallows": [
+               {
+               "class": "^floating\\-term$",
+               "instance": "^floating\\-term$",
+               "machine": "^lucy$"
                }
             ],
             "type": "con"
