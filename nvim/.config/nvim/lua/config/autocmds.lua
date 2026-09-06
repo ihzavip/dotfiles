@@ -75,3 +75,17 @@ vim.api.nvim_create_autocmd("TermLeave", {
     vim.opt.mouse = "a"
   end,
 })
+
+-- MQL5: own filetype so clangd stays away, but borrow the cpp parser for colour
+vim.filetype.add({ extension = { mq5 = "mql5", mqh = "mql5" } })
+vim.treesitter.language.register("cpp", "mql5")
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "mql5",
+  callback = function()
+    pcall(vim.treesitter.start, 0, "cpp")
+    vim.bo.commentstring = "// %s"
+  end,
+})
+
+-- MQL5 formatting is destructive to MetaQuotes house style; run it on demand
+set_autoformat({ "mql5" }, false)
