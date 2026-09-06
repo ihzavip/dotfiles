@@ -26,6 +26,14 @@ brightness() { # set HDMI-2 brightness (default 0.23, floor 0.1 so it never blac
 	fi
 	xrandr --output HDMI-2 --brightness "$val"
 }
+warpon() { # connect Cloudflare WARP (full tunnel + DoH) and verify
+	systemctl is-active --quiet warp-svc || sudo systemctl start warp-svc
+	warp-cli mode warp+doh >/dev/null
+	warp-cli connect >/dev/null
+	sleep 3
+	curl -s https://www.cloudflare.com/cdn-cgi/trace | grep -E '^(warp|loc)='
+}
+warpoff() { warp-cli disconnect >/dev/null && echo "WARP disconnected" }
 ta() { tmux attach -t "$1" }
 td() { tmux detach-client -s "$1" }
 tk() { tmux kill-session -t "$1" }

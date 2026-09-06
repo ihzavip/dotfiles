@@ -8,3 +8,6 @@ set adjust-open "best-fit"   # or "width" if you want full width
 set selection-clipboard clipboard
 
 # Link hints — fully opaque for visibility in dark mode
+
+# dictionary lookup: mouse-highlight a word, then Alt-d
+map <A-d> exec "/home/lucy/.local/bin/zdict"

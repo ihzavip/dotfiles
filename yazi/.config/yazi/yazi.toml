@@ -25,8 +25,9 @@ open = [
 play = [
   { run = 'mpv "$@"', orphan = true },
 ]
+# ponytail: index counts every dir entry, so a non-image file in the folder shifts the start position
 view = [
-  { run = 'nsxiv -a "$(dirname "$1")"', orphan = true, desc = "View all images in dir" },
+  { run = 'nsxiv -a -n "$(ls "$(dirname "$1")" | grep -n -x -F "$(basename "$1")" | cut -d: -f1 || echo 1)" -- "$(dirname "$1")"/*', orphan = true, desc = "View all images in dir, start at selected" },
 ]
 view-single = [
   { run = 'nsxiv "$1"', orphan = true, desc = "View image" },
